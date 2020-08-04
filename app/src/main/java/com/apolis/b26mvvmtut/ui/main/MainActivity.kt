@@ -28,11 +28,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.apply {
             adapter = mAdapter
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.onButtonClicked()
+        }
     }
 
     //This method is used to observer data from ViewModel
     private fun observerData() {
         viewModel.getGithubRepositoryObserver().observe(this, Observer {
+            binding.swipeRefreshLayout.isRefreshing = false
             if (it != null) {
                 mAdapter.setData(it)
             }
